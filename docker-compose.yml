@@ -9,7 +9,7 @@ services:
       POSTGRES_DB: task_db
     container_name: tasks
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
 
 volumes:
   postgres_data:
