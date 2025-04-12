@@ -6,8 +6,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('users')
-export class UserEntity {
+@Entity('tasks')
+export class Task {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -15,46 +15,23 @@ export class UserEntity {
     type: 'text',
     nullable: false,
   })
-  firstName: string;
+  title: string;
 
   @Column({
     type: 'text',
     nullable: false,
   })
-  lastName: string;
+  description: string;
 
   @Column({
-    type: 'text',
+    type: 'timestamp',
     nullable: false,
-    unique: true,
   })
-  userName: string;
+  dueDate: Date;
 
   @Column({
     type: 'text',
-    nullable: false,
-    unique: true,
-  })
-  email: string;
-
-  @Column({
-    type: 'text',
-    nullable: false,
-    unique: true,
-  })
-  password: string;
-
-  @Column({
-    type: 'text',
-    nullable: false,
-    unique: true,
-  })
-  role: string;
-
-  @Column({
-    type: 'text',
-    nullable: false,
-    unique: true,
+    default: false,
   })
   status: string;
 
