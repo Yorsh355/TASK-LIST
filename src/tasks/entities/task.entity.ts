@@ -1,14 +1,16 @@
-import { TaskStatus } from 'src/constants/roles';
+import { TaskStatus } from 'src/constants/enums';
+import { UserEntity } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('tasks')
-export class Task {
+@Entity({ name: 'tasks' })
+export class TaskEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -33,17 +35,33 @@ export class Task {
   @Column({
     type: 'enum',
     enum: TaskStatus,
-    default: false,
+    default: TaskStatus.TODO,
   })
   status: TaskStatus;
+
+  @Column({
+    type: 'boolean',
+    default: true,
+    nullable: false,
+  })
+  isActive: boolean;
 
   @CreateDateColumn({
     type: 'timestamp',
   })
-  createAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({
     type: 'timestamp',
   })
-  updateAt: Date;
+  updatedAt: Date;
+
+  @ManyToOne(() => UserEntity, (user) => user.tasks)
+  user: UserEntity;
+
+  @Column({
+    type: 'uuid',
+    nullable: false,
+  })
+  userId: string;
 }

@@ -4,6 +4,8 @@ export interface ITask {
   description: string;
   dueDate: Date;
   status: boolean;
+  isActive: boolean;
   createAt: Date;
   updateAt?: Date;
+  userId: string;
 }
