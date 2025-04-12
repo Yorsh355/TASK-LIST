@@ -1,3 +1,4 @@
+import { TaskStatus } from 'src/constants/roles';
 import {
   Column,
   CreateDateColumn,
@@ -30,10 +31,11 @@ export class Task {
   dueDate: Date;
 
   @Column({
-    type: 'text',
+    type: 'enum',
+    enum: TaskStatus,
     default: false,
   })
-  status: string;
+  status: TaskStatus;
 
   @CreateDateColumn({
     type: 'timestamp',

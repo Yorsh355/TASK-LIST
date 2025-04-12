@@ -1,3 +1,4 @@
+import { ROLES } from 'src/constants/roles';
 import {
   Column,
   CreateDateColumn,
@@ -45,11 +46,12 @@ export class UserEntity {
   password: string;
 
   @Column({
-    type: 'text',
+    type: 'enum',
+    enum: ROLES,
     nullable: false,
     unique: true,
   })
-  role: string;
+  role: ROLES;
 
   @Column({
     type: 'text',
