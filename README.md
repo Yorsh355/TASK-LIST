@@ -21,7 +21,7 @@
 </p>
   
   # taskList API
-  1. levantar la base de datos
-  ´´´
-  docker compose -d
-  ´´´
+  1. Clonar proyecto.
+  2. ´´´npm install´´´
+  3. Clonar el archivo ´´´.env´´´
+  4. levantar la base de datos ´´´docker compose -d´´´
