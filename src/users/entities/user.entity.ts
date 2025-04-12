@@ -31,6 +31,7 @@ export class UserEntity {
     type: 'text',
     nullable: false,
   })
+  //@Exclude()
   password: string;
 
   @Column({
