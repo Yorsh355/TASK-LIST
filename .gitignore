@@ -1,6 +1,8 @@
 # Compiled output
 /dist
 /node_modules
+postgres/
+postgres_data/
 
 # Logs
 logs
@@ -24,6 +26,7 @@ lerna-debug.log*
 # Environment variables
 .env
 .env.local
+.env.development
 .env.development.local
 .env.test.local
 .env.production.local

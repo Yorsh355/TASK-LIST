@@ -1,16 +1,16 @@
-import { ROLES } from '../../constants/enums';
-import { TaskEntity } from '../../tasks/entities/task.entity';
+import { TaskStatus } from '../../constants/enums';
+import { UserEntity } from '../../users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'users' })
-export class UserEntity {
+@Entity({ name: 'tasks' })
+export class TaskEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -18,28 +18,27 @@ export class UserEntity {
     type: 'text',
     nullable: false,
   })
-  userName: string;
+  title: string;
 
   @Column({
     type: 'text',
     nullable: false,
-    unique: true,
   })
-  email: string;
+  description: string;
 
   @Column({
-    type: 'text',
+    type: 'timestamp',
     nullable: false,
-    select: false,
+    default: () => 'CURRENT_TIMESTAMP',
   })
-  password: string;
+  dueDate: Date;
 
   @Column({
     type: 'enum',
-    enum: ROLES,
-    nullable: false,
+    enum: TaskStatus,
+    default: TaskStatus.TODO,
   })
-  role: ROLES;
+  status: TaskStatus;
 
   @Column({
     type: 'boolean',
@@ -58,6 +57,12 @@ export class UserEntity {
   })
   updatedAt: Date;
 
-  @OneToMany(() => TaskEntity, (task) => task.user)
-  tasks: TaskEntity[];
+  @ManyToOne(() => UserEntity, (user) => user.tasks)
+  user: UserEntity;
+
+  @Column({
+    type: 'uuid',
+    nullable: false,
+  })
+  userId: string;
 }
