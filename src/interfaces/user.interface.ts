@@ -7,6 +7,7 @@ export interface IUser {
   password: string;
   role: ROLES;
   isActive: boolean;
-  createAt: Date;
+  createAt?: Date;
   updateAt?: Date;
+  token: string;
 }
