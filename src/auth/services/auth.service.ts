@@ -32,7 +32,7 @@ export class AuthService {
 
       return {
         ...user,
-        token: this.getJwtToken({ id: user.id }),
+        token: this.getJwtToken({ email: user.email }),
       };
     } catch (err) {
       this.logger.error(err);
@@ -53,7 +53,7 @@ export class AuthService {
 
     return {
       ...user,
-      token: this.getJwtToken({ id: user.id }),
+      token: this.getJwtToken({ email: user.email }),
     };
   }
 
