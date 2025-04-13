@@ -17,5 +17,7 @@ import { CommonModule } from './common/common.module';
     TasksModule,
     CommonModule,
   ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

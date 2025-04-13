@@ -1,5 +1,5 @@
-import { ROLES } from 'src/constants/enums';
-import { TaskEntity } from 'src/tasks/entities/task.entity';
+import { ROLES } from '../../constants/enums';
+import { TaskEntity } from '../../tasks/entities/task.entity';
 import {
   Column,
   CreateDateColumn,

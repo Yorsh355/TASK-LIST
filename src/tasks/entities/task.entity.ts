@@ -1,5 +1,5 @@
-import { TaskStatus } from 'src/constants/enums';
-import { UserEntity } from 'src/users/entities/user.entity';
+import { TaskStatus } from '../../constants/enums';
+import { UserEntity } from '../../users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
