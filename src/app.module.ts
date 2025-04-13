@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSourseConfig } from './config/data.source';
 import { TasksModule } from './tasks/tasks.module';
 import { CommonModule } from './common/common.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CommonModule } from './common/common.module';
     UsersModule,
     TasksModule,
     CommonModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

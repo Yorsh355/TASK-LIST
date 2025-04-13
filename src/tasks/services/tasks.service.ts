@@ -4,10 +4,10 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
-import { TasksRepository } from './repositories/tasks.repository';
-import { TaskEntity } from './entities/task.entity';
+import { CreateTaskDto } from '../dto/create-task.dto';
+import { UpdateTaskDto } from '../dto/update-task.dto';
+import { TasksRepository } from '../repositories/tasks.repository';
+import { TaskEntity } from '../entities/task.entity';
 
 @Injectable()
 export class TasksService {
