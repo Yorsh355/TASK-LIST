@@ -1,9 +1,11 @@
+import { TaskStatus } from '../constants/enums';
+
 export interface ITask {
   id: string;
   title: string;
   description: string;
   dueDate: Date;
-  status: boolean;
+  status: TaskStatus;
   isActive: boolean;
   createAt: Date;
   updateAt?: Date;

@@ -16,4 +16,28 @@ export class UsersRepository
   ) {
     super(usersRepository);
   }
+
+  async findUserById(id: string): Promise<UserEntity> {
+    const queryBuilder = this.usersRepository.createQueryBuilder('user');
+
+    const user = await queryBuilder
+      .where('user.id = :id', { id })
+      .andWhere('user.isActive = :isActive', { isActive: true })
+      .getOne();
+
+    return user;
+  }
+
+  async findOneByEmail(email: string): Promise<UserEntity> {
+    const queryBuilder = this.usersRepository.createQueryBuilder('user');
+
+    const user = await queryBuilder
+      .select(['user.email', 'user.password'])
+      .where('user.email = :email', { email })
+      .andWhere('user.isActive = :isActive', { isActive: true })
+      .getOne();
+
+    console.log(user);
+    return user;
+  }
 }

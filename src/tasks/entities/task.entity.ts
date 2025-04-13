@@ -29,6 +29,7 @@ export class TaskEntity {
   @Column({
     type: 'timestamp',
     nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
   })
   dueDate: Date;
 
