@@ -52,7 +52,6 @@ export class TasksService {
     id: string,
     updateTaskDto: UpdateTaskDto,
   ): Promise<TaskEntity> {
-    //if(task.affected === 0) throw new NotFoundException('Task not found');
     try {
       const findTask = await this.findOneTask(id);
 

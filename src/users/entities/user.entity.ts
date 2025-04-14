@@ -1,4 +1,3 @@
-import { ROLES } from '../../constants/enums';
 import { TaskEntity } from '../../tasks/entities/task.entity';
 import {
   Column,
@@ -35,11 +34,11 @@ export class UserEntity {
   password: string;
 
   @Column({
-    type: 'enum',
-    enum: ROLES,
-    nullable: false,
+    type: 'text',
+    array: true,
+    default: ['USER'],
   })
-  role: ROLES;
+  role: string[];
 
   @Column({
     type: 'boolean',
