@@ -25,3 +25,19 @@
   2. ´´´npm install´´´
   3. Clonar el archivo ´´´.env´´´
   4. levantar la base de datos ´´´docker compose -d´´´
+
+# Resumen
+
+- Se desarrolla el módulo user donde las rutas solo se pueden acceder con permisos de administrador, el modulo task donde las rutas se acceden como administrador o usuario pero con permisos diferentes como se solicita: por cuestiones de tiempo solo la ruta get findAllTasks, en el módulo auth se genera la estrategia para el JWT, se genera el Guard y los decoradores personalizados para integrar toda la lógica de permisos en el decorador @Auth, tambien se trabaja con repositorios personalizados para separár la lógica de las consultas de los servicios y de esta forma separar responzabilidades.
+- usuario administrador:
+  {
+  "email": "emiliano@gmail.com",
+  "password": "secret1234"
+  }
+
+- usuario con permisos user:
+
+  {
+  "email": "emiliano@gmail.com",
+  "password": "secret1234"
+  }
