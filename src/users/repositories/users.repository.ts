@@ -32,7 +32,13 @@ export class UsersRepository
     const queryBuilder = this.usersRepository.createQueryBuilder('user');
 
     const user = await queryBuilder
-      .select(['user.email', 'user.password', 'user.role'])
+      .select([
+        'user.email',
+        'user.password',
+        'user.role',
+        'user.id',
+        'user.userName',
+      ])
       .where('user.email = :email', { email })
       .andWhere('user.isActive = :isActive', { isActive: true })
       .getOne();

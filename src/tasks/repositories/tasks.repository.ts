@@ -27,4 +27,36 @@ export class TasksRepository
 
     return task;
   }
+
+  async findAllTasks(
+    take: number = 0,
+    skip: number = 10,
+  ): Promise<TaskEntity[]> {
+    const queryBuilder = this.tasksRepository.createQueryBuilder('task');
+
+    const task = queryBuilder
+      .where('task.isActive = :isActive', { isActive: true })
+      .take(take)
+      .skip(skip)
+      .getMany();
+
+    return task;
+  }
+
+  async findTaskByUserId(
+    userId: string,
+    take: number = 0,
+    skip: number = 10,
+  ): Promise<TaskEntity[]> {
+    const queryBuilder = this.tasksRepository.createQueryBuilder('task');
+
+    const task = queryBuilder
+      .where('task.userId = :userId', { userId })
+      .andWhere('task.isActive = :isActive', { isActive: true })
+      .take(take)
+      .skip(skip)
+      .getMany();
+
+    return task;
+  }
 }
