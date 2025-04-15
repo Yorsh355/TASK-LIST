@@ -1,28 +1,21 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { LoginUserDto } from '../dto/login-user-dto';
+import { ValidRoles } from '../../auth/interfaces/valid-roles';
+import { Auth } from 'src/auth/decorators/auth.decorator';
 
 @Controller('users')
+@Auth(ValidRoles.ADMIN)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  createUser(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.createUser(createUserDto);
-  }
-
-  @Post('login')
-  loginUser(@Body() loginUserDto: LoginUserDto) {
-    return this.usersService.login(loginUserDto);
-  }
-
   @Get()
+  @Auth(ValidRoles.ADMIN)
   findAllUsers() {
     return this.usersService.findAllUsers();
   }
 
   @Get(':id')
+  @Auth(ValidRoles.ADMIN)
   findUserById(@Param('id') id: string) {
     return this.usersService.findUserById(id);
   }

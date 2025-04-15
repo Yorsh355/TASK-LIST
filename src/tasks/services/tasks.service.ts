@@ -4,10 +4,11 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
-import { TasksRepository } from './repositories/tasks.repository';
-import { TaskEntity } from './entities/task.entity';
+import { CreateTaskDto } from '../dto/create-task.dto';
+import { UpdateTaskDto } from '../dto/update-task.dto';
+import { TasksRepository } from '../repositories/tasks.repository';
+import { TaskEntity } from '../entities/task.entity';
+import { UserEntity } from '../../users/entities/user.entity';
 
 @Injectable()
 export class TasksService {
@@ -26,14 +27,22 @@ export class TasksService {
     }
   }
 
-  async findAllTask(): Promise<TaskEntity[]> {
+  async findAllTask(
+    user: UserEntity,
+    take: number = 0,
+    skip: number = 10,
+  ): Promise<TaskEntity[]> {
     try {
-      const tasks = await this.tasksRepository.findAll();
-
-      return tasks;
+      if (user.role.includes('ADMIN')) {
+        // ADMIN: Devolver todas las tareas
+        return await this.tasksRepository.findAllTasks(take, skip);
+      } else {
+        // USER: Devolver solo las tareas del usuario
+        return await this.tasksRepository.findTaskByUserId(user.id, take, skip);
+      }
     } catch (err) {
-      this.logger.error(err);
-      throw new InternalServerErrorException('No tasks found');
+      this.logger.error(`Error fetching tasks: ${err.message}`);
+      throw new InternalServerErrorException('Failed to retrieve tasks');
     }
   }
 
@@ -52,7 +61,6 @@ export class TasksService {
     id: string,
     updateTaskDto: UpdateTaskDto,
   ): Promise<TaskEntity> {
-    //if(task.affected === 0) throw new NotFoundException('Task not found');
     try {
       const findTask = await this.findOneTask(id);
 
