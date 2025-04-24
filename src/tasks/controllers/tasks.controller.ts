@@ -7,10 +7,8 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
-  Request,
   Query,
-  DefaultValuePipe,
-  ParseIntPipe,
+  Request,
 } from '@nestjs/common';
 import { TasksService } from '../services/tasks.service';
 import { CreateTaskDto } from '../dto/create-task.dto';
@@ -18,6 +16,7 @@ import { UpdateTaskDto } from '../dto/update-task.dto';
 import { Auth } from '../../auth/decorators/auth.decorator';
 import { ValidRoles } from 'src/auth/interfaces/valid-roles';
 import { TaskEntity } from '../entities/task.entity';
+import { QueryParamsDto } from '../dto/query-params.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -33,10 +32,9 @@ export class TasksController {
   @Auth(ValidRoles.ADMIN, ValidRoles.USER)
   findAllTask(
     @Request() req,
-    @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number,
-    @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip: number,
+    @Query() queryParamsDto: QueryParamsDto,
   ): Promise<TaskEntity[]> {
-    return this.tasksService.findAllTask(req.user, take, skip);
+    return this.tasksService.findAllTask(req.user, queryParamsDto);
   }
 
   @Get(':id')
