@@ -7,36 +7,36 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
-  Request,
   Query,
-  DefaultValuePipe,
-  ParseIntPipe,
+  Request,
 } from '@nestjs/common';
+import { Request as ExpressRequest } from 'express';
 import { TasksService } from '../services/tasks.service';
 import { CreateTaskDto } from '../dto/create-task.dto';
 import { UpdateTaskDto } from '../dto/update-task.dto';
 import { Auth } from '../../auth/decorators/auth.decorator';
 import { ValidRoles } from 'src/auth/interfaces/valid-roles';
 import { TaskEntity } from '../entities/task.entity';
+import { QueryParamsDto } from '../dto/query-params.dto';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 @Controller('tasks')
+@Auth()
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
-  @Auth(ValidRoles.ADMIN, ValidRoles.USER)
   createTask(@Body() createTaskDto: CreateTaskDto) {
     return this.tasksService.createTask(createTaskDto);
   }
 
   @Get()
-  @Auth(ValidRoles.ADMIN, ValidRoles.USER)
   findAllTask(
-    @Request() req,
-    @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number,
-    @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip: number,
+    @Request() req: ExpressRequest,
+    @Query() queryParamsDto: QueryParamsDto,
   ): Promise<TaskEntity[]> {
-    return this.tasksService.findAllTask(req.user, take, skip);
+    const user = req.user as UserEntity;
+    return this.tasksService.findAllTask(user, queryParamsDto);
   }
 
   @Get(':id')

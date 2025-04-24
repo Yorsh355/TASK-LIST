@@ -9,6 +9,7 @@ import { UpdateTaskDto } from '../dto/update-task.dto';
 import { TasksRepository } from '../repositories/tasks.repository';
 import { TaskEntity } from '../entities/task.entity';
 import { UserEntity } from '../../users/entities/user.entity';
+import { QueryParamsDto } from '../dto/query-params.dto';
 
 @Injectable()
 export class TasksService {
@@ -29,10 +30,11 @@ export class TasksService {
 
   async findAllTask(
     user: UserEntity,
-    take: number = 0,
-    skip: number = 10,
+    queryParamsDto: QueryParamsDto,
   ): Promise<TaskEntity[]> {
     try {
+      const { take, skip } = queryParamsDto;
+
       if (user.role.includes('ADMIN')) {
         // ADMIN: Devolver todas las tareas
         return await this.tasksRepository.findAllTasks(take, skip);
