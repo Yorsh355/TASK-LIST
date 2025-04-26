@@ -15,7 +15,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  @Auth(ValidRoles.ADMIN)
+  @Auth()
   findUserById(@Param('id') id: string) {
     return this.usersService.findUserById(id);
   }

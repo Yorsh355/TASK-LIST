@@ -48,27 +48,41 @@ export class TasksService {
     }
   }
 
-  async findOneTask(id: string): Promise<TaskEntity> {
+  async findOneTask(id: string, user: UserEntity): Promise<TaskEntity> {
+    let task: TaskEntity;
     try {
-      const user = await this.tasksRepository.findTaskById(id);
+      if (user.role.includes('ADMIN')) {
+        task = await this.tasksRepository.findTaskById(id);
+      } else {
+        task = await this.tasksRepository.findTaskByUserIdAndTaskId(
+          user.id,
+          id,
+        );
+      }
 
-      return user;
+      if (!task) {
+        throw new NotFoundException(`Task with ID ${id} not found`);
+      }
+
+      return task;
     } catch (err) {
       this.logger.error(err);
-      throw new InternalServerErrorException('No users found');
+      if (err instanceof NotFoundException) {
+        throw err; // Re-lanza la NotFoundException
+      }
+      throw new InternalServerErrorException(
+        'Something went wrong while fetching the task',
+      );
     }
   }
 
   async updateTask(
     id: string,
     updateTaskDto: UpdateTaskDto,
+    user: UserEntity,
   ): Promise<TaskEntity> {
     try {
-      const findTask = await this.findOneTask(id);
-
-      if (!findTask) {
-        throw new NotFoundException(`Task with ID ${id} not found`);
-      }
+      const findTask = await this.findOneTask(id, user);
 
       const updatedTask = {
         ...findTask,
@@ -84,12 +98,9 @@ export class TasksService {
     }
   }
 
-  async removeTask(id: string): Promise<string> {
-    const findTask = await this.findOneTask(id);
+  async removeTask(id: string, user: UserEntity): Promise<string> {
+    const findTask = await this.findOneTask(id, user);
 
-    if (!findTask) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
-    }
     try {
       await this.tasksRepository.remove(findTask);
 
