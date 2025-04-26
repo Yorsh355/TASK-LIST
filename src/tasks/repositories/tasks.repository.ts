@@ -59,4 +59,18 @@ export class TasksRepository
 
     return task;
   }
+  async findTaskByUserIdAndTaskId(
+    userId: string,
+    taskId: string,
+  ): Promise<TaskEntity> {
+    const queryBuilder = this.tasksRepository.createQueryBuilder('task');
+
+    const task = queryBuilder
+      .where('task.userId = :userId', { userId })
+      .andWhere('task.id = :taskId', { taskId })
+      .andWhere('task.isActive = :isActive', { isActive: true })
+      .getOne();
+
+    return task;
+  }
 }

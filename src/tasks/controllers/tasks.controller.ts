@@ -36,26 +36,40 @@ export class TasksController {
     @Query() queryParamsDto: QueryParamsDto,
   ): Promise<TaskEntity[]> {
     const user = req.user as UserEntity;
+
     return this.tasksService.findAllTask(user, queryParamsDto);
   }
 
   @Get(':id')
-  findOneTask(@Param('id', ParseUUIDPipe) id: string) {
-    return this.tasksService.findOneTask(id);
+  findOneTask(
+    @Request() req: ExpressRequest,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
+    const user = req.user as UserEntity;
+
+    return this.tasksService.findOneTask(id, user);
   }
 
   @Patch(':id')
   @Auth(ValidRoles.ADMIN, ValidRoles.USER)
   updateTask(
+    @Request() req: ExpressRequest,
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateTaskDto: UpdateTaskDto,
   ) {
-    return this.tasksService.updateTask(id, updateTaskDto);
+    const user = req.user as UserEntity;
+
+    return this.tasksService.updateTask(id, updateTaskDto, user);
   }
 
   @Delete(':id')
   @Auth(ValidRoles.ADMIN, ValidRoles.USER)
-  removeTask(@Param('id', ParseUUIDPipe) id: string) {
-    return this.tasksService.removeTask(id);
+  removeTask(
+    @Request() req: ExpressRequest,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
+    const user = req.user as UserEntity;
+
+    return this.tasksService.removeTask(id, user);
   }
 }
